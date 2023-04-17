@@ -1,42 +1,88 @@
-button {
-    background-color: #000;
-    color: #fff;
-    margin-right: 10px;
+@import '@angular/material/theming';
+
+
+$primary: mat-palette($mat-indigo);
+$accent: mat-palette($mat-pink, A200, A100, A400);
+$warn: mat-palette($mat-red);
+
+$theme: mat-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+    warn: $warn,
+  ),
+));
+
+@include angular-material-theme($theme);
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
 }
 
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
 
-ul {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    max-width: 50%;
-    li {
-        padding: 10px;
-        border: 1px solid #000;
-        margin: 10px 0;
-    }
+  button {
+    margin-right: 1rem;
+  }
+
+  .requests-number-field {
+    width: 150px;
+    margin-right: 10px;
+  }
+  
 }
 
 .info {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 10px;
-
-    .selected-user {
-        display: flex;
-        flex-direction: column;
-        &__title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        &__value {
-            font-size: 16px;
-            margin-bottom: 10px;
-        }
-
-    }
-
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1rem;
+  width: 100%;
 }
+
+.users-container {
+  mat-list-item {
+    cursor: pointer;
+    &:hover {
+      background-color: mat-color($accent, 50);
+    }
+  }
+}
+
+.selected-user-container {
+  .empty-message {
+    font-size: 1.25rem;
+    color: mat-color($warn);
+    margin-top: 1rem;
+  }
+}
+
+.selected-user {
+  display: flex;
+  flex-direction: column;
+
+  mat-card-title,
+  mat-card-content {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+  }
+  

@@ -1,59 +1,54 @@
-<button
-(click)="getUsers()"
->
-  Click to response
-</button>
-
-<button
-(click)="clearUsers()"
->
-  Clear users
-</button>
-
-
-<div class="info">
-  <div>
-    <h1>Users</h1>
-    <ul class="users" *ngIf="users.length; else noUsers">
-      <li *ngFor="let user of users"
-      (click)="selectUser(user.id)"
-      >
-        {{user.name}}
-      </li>
-  </ul>
+<div class="container">
+  <div class="button-container">
+    <button mat-raised-button color="primary" (click)="getUsers()">
+      Click to response
+    </button>
+    <button mat-raised-button color="warn" (click)="clearUsers()">
+      Clear users
+    </button>    
   </div>
 
+  <mat-form-field appearance="outline" class="requests-number-field">
+    <mat-label>Number of Requests</mat-label>
+    <input matInput [(ngModel)]="requestsNumber" type="number" min="1">
+  </mat-form-field>
 
-  <div >
-    <h1>Selected user</h1>
-    <div class="selected-user" *ngIf="selectedUser; else noSelectedUser">
-      <div class="selected-user__title">Name</div>
-      <div class="selected-user__value">{{selectedUser.name}}</div>
-      <div class="selected-user__title">Email</div>
-      <div class="selected-user__value">{{selectedUser.email}}</div>
-
-      <div class="selected-user__title">Phone</div>
-      <div class="selected-user__value">{{selectedUser.phone}}</div>
-
-      <div class="selected-user__title">Website</div>
-      <div class="selected-user__value">{{selectedUser.website}}</div>
-
-      <div class="selected-user__title">Company</div>
-      <div class="selected-user__value">{{selectedUser.company.name}}</div>
-
-      <div class="selected-user__title">Address</div>
-      <div class="selected-user__value">{{selectedUser.address.city}}</div>
-
-      <div class="selected-user__title">Geo</div>
-      <div class="selected-user__value">{{selectedUser.address.geo.lat}}</div>
+  <div class="info">
+    <div class="users-container">
+      <h1>Users</h1>
+      <mat-list *ngIf="users.length; else noUsers">
+        <mat-list-item *ngFor="let user of users" (click)="selectUser(user.id)">
+          {{user.name}}
+        </mat-list-item>
+      </mat-list>
     </div>
 
-    <ng-template #noSelectedUser>
-      <div class="selected-user__value">No selected user</div>
-    </ng-template>
+    <div class="selected-user-container">
+      <h1>Selected user</h1>
+      <mat-card class="selected-user" *ngIf="selectedUser; else noSelectedUser">
+        <mat-card-content>
+          <p>Name: {{selectedUser.name}}</p>
+          <p>Email: {{selectedUser.email}}</p>
+          <p>Phone: {{selectedUser.phone}}</p>
+          <p>Website: {{selectedUser.website}}</p>
+          <p>Company: {{selectedUser.company.name}}</p>
+          <p>Address: {{selectedUser.address.city}}</p>
+          <p>Geo: {{selectedUser.address.geo.lat}} {{selectedUser.address.geo.lng}}</p>
+        </mat-card-content>
+      </mat-card>
 
-    <ng-template #noUsers>
-      <div class="selected-user__value">No users list</div>
-    </ng-template>
+      <ng-template #noSelectedUser>
+        <div class="empty-message">No selected user</div>
+      </ng-template>
+
+      <ng-template #noUsers>
+        <div class="empty-message">No users list</div>
+      </ng-template>
+    </div>
   </div>
+</div>
+
+
+<div class="loading-container" *ngIf="loading">
+  <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
 </div>
