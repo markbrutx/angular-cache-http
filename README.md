@@ -1,27 +1,73 @@
-# AngularCacheHttp
+# Angular-cache-http
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.6.
+## Overview
+The `CachedRequest` decorator is a function that provides a simple caching mechanism for API calls. It helps to cache the results of an API request to avoid making multiple unnecessary requests to the server.
 
-## Development server
+It utilizes the `rxjs` library and its operators, namely `Observable` and `shareReplay`.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Usage
+The `CachedRequest` decorator can be applied to methods that return an `Observable`:
 
-## Code scaffolding
+```typescript
+import { CachedRequest } from './path/to/cached-request.decorator';
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+class ApiService {
+  private cache: { [key: string]: Observable<any> | undefined } = {};
 
-## Build
+  @CachedRequest(function (this: ApiService) {
+    return this.cache;
+  })
+  public getData(param: string): Observable<any> {
+    // API call logic
+  }
+}
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
 
-## Running unit tests
+## Parameters
+The ``CachedRequest`` decorator accepts a single parameter:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+- `cacheFactory` (function): A function that returns an object for storing the cache. This function is called with the `this` context of the target object.
 
-## Running end-to-end tests
+## How It Works
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+1. When the decorated method is called, the decorator checks for an existing cache using the cache key, which is generated based on the class name, method name, and stringified input parameters.
+2. If the cache exists, the decorator returns the cached `Observable`.
+3. If the cache does not exist, it calls the original method, creates a new cache using the `shareReplay(1)` operator, and stores the cache.
+4. Finally, it returns the newly created cache as an `Observable`.
 
-## Further help
+This caching mechanism helps to reduce the number of API calls and improve the performance of an application, especially when dealing with expensive or slow API calls.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Additional
+
+You can run the project locally to see the implemented CRUD functionality using Angular Material. The example showcases fetching, displaying, and selecting user data using Angular Material components for a visually appealing user interface.
+
+## Running the Project
+
+1. Install the required dependencies by running the following command:
+    
+    ```bash
+    npm install
+    ```
+2. Start the development server by executing the following command:
+    
+    ```bash 
+    ng serve
+    ``` 
+3. Open your browser and navigate to http://localhost:4200. You should see the application running with the Angular Material-styled interface.
+
+
+## Visual Demo
+
+The running application demonstrates:
+
+- Fetching user data using the "Click to response" button.
+- Clearing fetched data using the "Clear users" button.
+- Displaying a list of fetched users.
+- Selecting a user to display detailed user information.
+- Adjusting the number of requests with the "Number of Requests" input field.
+Explore the visually pleasing Angular Material components and CRUD functionality provided in the example application.
+
+## Note
+
+Remember that this caching mechanism is simple and might not be suitable for all use cases. It is important to consider the specific requirements and constraints of your application when deciding whether to use this decorator.
