@@ -3,3 +3,57 @@
 >
   Click to response
 </button>
+
+<button
+(click)="clearUsers()"
+>
+  Clear users
+</button>
+
+
+<div class="info">
+  <div>
+    <h1>Users</h1>
+    <ul class="users" *ngIf="users.length; else noUsers">
+      <li *ngFor="let user of users"
+      (click)="selectUser(user.id)"
+      >
+        {{user.name}}
+      </li>
+  </ul>
+  </div>
+
+
+  <div >
+    <h1>Selected user</h1>
+    <div class="selected-user" *ngIf="selectedUser; else noSelectedUser">
+      <div class="selected-user__title">Name</div>
+      <div class="selected-user__value">{{selectedUser.name}}</div>
+      <div class="selected-user__title">Email</div>
+      <div class="selected-user__value">{{selectedUser.email}}</div>
+
+      <div class="selected-user__title">Phone</div>
+      <div class="selected-user__value">{{selectedUser.phone}}</div>
+
+      <div class="selected-user__title">Website</div>
+      <div class="selected-user__value">{{selectedUser.website}}</div>
+
+      <div class="selected-user__title">Company</div>
+      <div class="selected-user__value">{{selectedUser.company.name}}</div>
+
+      <div class="selected-user__title">Address</div>
+      <div class="selected-user__value">{{selectedUser.address.city}}</div>
+
+      <div class="selected-user__title">Geo</div>
+      <div class="selected-user__value">{{selectedUser.address.geo.lat}}</div>
+    </div>
+
+    <ng-template #noSelectedUser>
+      <div class="selected-user__value">No selected user</div>
+    </ng-template>
+
+    <ng-template #noUsers>
+      <div class="selected-user__value">No users list</div>
+    </ng-template>
+  </div>
+</div>

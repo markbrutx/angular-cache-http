@@ -8,7 +8,7 @@ import { shareReplay } from "rxjs/operators";
  * @param cacheFactory gettings cache object
  * @return {*}
  */
-export function cachedRequest(
+export function CachedRequest(
   cacheFactory: (this: any) =>
     { [key: string]: Observable<any> | undefined }
 )
